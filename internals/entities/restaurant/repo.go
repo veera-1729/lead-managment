@@ -1,6 +1,8 @@
 package restaurant
 
-import "github.com/veera-1729/lead-managment/internals/database"
+import (
+	"github.com/veera-1729/lead-managment/internals/database"
+)
 
 type Repo struct {
 	DB *database.Db

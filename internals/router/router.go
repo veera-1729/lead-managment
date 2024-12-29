@@ -20,7 +20,7 @@ func InitializeRoutes() *gin.Engine {
 
 	router.Use(middleware.ResponseHandler())
 
-	setUpUserRoutes(router)
+	setUpContactRoutes(router)
 	setUpRestaurantRoutes(router)
 	setUpLeadRoutes(router)
 	setUpOrderRoutes(router)
@@ -28,19 +28,21 @@ func InitializeRoutes() *gin.Engine {
 	return router
 }
 
-func setUpUserRoutes(router *gin.Engine) {
+func setUpContactRoutes(router *gin.Engine) {
 	userRoutes := router.Group("/contacts")
 
 	userRoutes.GET("", contacts.FetchAllContacts)
+	userRoutes.GET("/restaurants/:id", contacts.FetchRestaurantContacts)
 	userRoutes.POST("", contacts.CreateContact)
-	//userRoutes.PUT("/user/:id", UpdateUser)
-	//userRoutes.DELETE("/user/:id", DeleteUser)
+	userRoutes.PUT("/edit/:id", contacts.EditContact)
+	userRoutes.DELETE("/:id", contacts.DeleteContact)
 }
 func setUpRestaurantRoutes(router *gin.Engine) {
 	restaurantRoutes := router.Group("/restaurant")
 
 	restaurantRoutes.GET("", restaurant.FetchAllRestaurants)
 	restaurantRoutes.POST("", restaurant.CreateRestaurant)
+	restaurantRoutes.GET("/contacts/:id", restaurant.CreateRestaurant)
 	//restaurantRoutes.PUT("/restaurant/:id", UpdateRestaurant)
 	//restaurantRoutes.DELETE("/restaurant/:id", DeleteRestaurant)
 }
@@ -50,7 +52,7 @@ func setUpLeadRoutes(router *gin.Engine) {
 
 	leadRoutes.GET("", lead.FetchAllLeads)
 	leadRoutes.POST("", lead.CreateLead)
-	//leadRoutes.PUT("/lead/:id", UpdateLead)
+	leadRoutes.PUT("/edit/:id", lead.EditLead)
 	//leadRoutes.DELETE("/lead/:id", DeleteLead)
 }
 

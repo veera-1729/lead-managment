@@ -1,7 +1,7 @@
 package constants
 
 const (
-	UserService         = "UserService"
+	ContactService      = "ContactService"
 	RestaurantService   = "RestaurantService"
 	LeadService         = "LeadService"
 	OrderService        = "OrderService"

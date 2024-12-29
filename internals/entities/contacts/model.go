@@ -6,11 +6,11 @@ import (
 
 type Contacts struct {
 	*gorm.Model
-	Name         string `gorm:"size:255;not null"`
-	Email        string `gorm:"size:255;unique;not null"`
-	Role         string `gorm:"size:50;not null"` // e.g., Admin, KAM
-	PhoneNo      string `gorm:"size:20"`
-	RestaurantID uint   `gorm:"not null;index"`
+	Name         string `gorm:"size:255;not null" json:"name"`
+	Email        string `gorm:"size:255;unique;not null" json:"email"`
+	Role         string `gorm:"size:50;not null" json:"role"` // e.g., Admin, KAM
+	PhoneNo      string `gorm:"size:20;unique;not null" json:"phone_no"`
+	RestaurantID uint   `gorm:"not null;index" json:"restaurant_id"`
 }
 
 func (u *Contacts) TableName() string {

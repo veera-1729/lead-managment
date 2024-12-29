@@ -29,3 +29,11 @@ func (r *Repo) FetchAllLeads() ([]Lead, error) {
 	}
 	return leads, nil
 }
+
+func (r *Repo) EditLead(lead *Lead, id string) error {
+	res := r.DB.Db.Model(&Lead{}).Where("id = ?", id).Updates(lead)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}

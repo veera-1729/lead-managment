@@ -65,6 +65,26 @@ func FetchAllLeads(c *gin.Context) {
 	}
 }
 
+func EditLead(c *gin.Context) {
+	service := GetLeadServiceFromRegistry()
+	le := &leads.Lead{}
+	err := c.ShouldBindBodyWithJSON(le)
+	if err != nil {
+		c.Set(constants.Error, err)
+		c.Set(constants.Response, nil)
+		return
+	}
+	leadID := c.Param("id")
+	err = service.leadRepo.EditLead(le, leadID)
+	if err != nil {
+		c.Set(constants.Error, err)
+		c.Set(constants.Response, nil)
+		return
+	}
+	c.Set(constants.Error, nil)
+	c.Set(constants.Response, le)
+}
+
 func GetLeadServiceFromRegistry() *Service {
 	r := registry.GetRegistry()
 	var service *Service

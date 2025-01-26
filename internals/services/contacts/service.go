@@ -10,7 +10,12 @@ import (
 )
 
 type Service struct {
-	repo *contacts.Repo
+	repo ContactStore
+}
+
+type ContactStore interface {
+	contacts.Creator
+	contacts.Finder
 }
 
 func (s *Service) ServiceName() string {
@@ -24,7 +29,7 @@ func (s *Service) Handle(c *gin.Context) {
 	}
 }
 
-func NewContactService(repo *contacts.Repo) *Service {
+func NewContactService(repo ContactStore) *Service {
 	return &Service{
 		repo: repo,
 	}
@@ -49,26 +54,21 @@ func CreateContact(c *gin.Context) {
 }
 
 func FetchAllContacts(c *gin.Context) {
-	service := GetContactServiceFromRegistry()
-	res, err := service.repo.FetchAllContacts()
-	if err != nil {
-		c.Set(constants.Response, nil)
-		c.Set(constants.Error, err)
-	} else {
-		c.Set(constants.Response, res)
-		c.Set(constants.Error, nil)
-	}
+	//service := GetContactServiceFromRegistry()
+	//res, err := service.repo.FetchAllContacts()
+	//if err != nil {
+	//	c.Set(constants.Response, nil)
+	//	c.Set(constants.Error, err)
+	//} else {
+	//	c.Set(constants.Response, res)
+	//	c.Set(constants.Error, nil)
+	//}
 }
 
-func EditContact(c *gin.Context) {
+func FetchContactByID(c *gin.Context) {
 	service := GetContactServiceFromRegistry()
 	user := &contacts.Contacts{}
-	err := c.ShouldBindBodyWithJSON(user)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "INVALID_REQUEST"})
-		return
-	}
-	err = service.repo.EditContact(user, c.Param("id"))
+	err := service.repo.FindByID(c.Param("id"), user)
 	if err != nil {
 		c.Set(constants.Response, nil)
 		c.Set(constants.Error, err)
@@ -77,28 +77,45 @@ func EditContact(c *gin.Context) {
 		c.Set(constants.Error, nil)
 	}
 }
+func EditContact(c *gin.Context) {
+	//service := GetContactServiceFromRegistry()
+	//user := &contacts.Contacts{}
+	//err := c.ShouldBindBodyWithJSON(user)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "INVALID_REQUEST"})
+	//	return
+	//}
+	//err = service.repo.EditContact(user, c.Param("id"))
+	//if err != nil {
+	//	c.Set(constants.Response, nil)
+	//	c.Set(constants.Error, err)
+	//} else {
+	//	c.Set(constants.Response, user)
+	//	c.Set(constants.Error, nil)
+	//}
+}
 func DeleteContact(c *gin.Context) {
-	service := GetContactServiceFromRegistry()
-	err := service.repo.DeleteContact(c.Param("id"))
-	if err != nil {
-		c.Set(constants.Response, nil)
-		c.Set(constants.Error, err)
-	} else {
-		c.Set(constants.Response, "Deleted")
-		c.Set(constants.Error, nil)
-	}
+	//service := GetContactServiceFromRegistry()
+	//err := service.repo.DeleteContact(c.Param("id"))
+	//if err != nil {
+	//	c.Set(constants.Response, nil)
+	//	c.Set(constants.Error, err)
+	//} else {
+	//	c.Set(constants.Response, "Deleted")
+	//	c.Set(constants.Error, nil)
+	//}
 }
 
 func FetchRestaurantContacts(c *gin.Context) {
-	service := GetContactServiceFromRegistry()
-	res, err := service.repo.FetchContactsByRestaurantId(c.Param("id"))
-	if err != nil {
-		c.Set(constants.Response, nil)
-		c.Set(constants.Error, err)
-	} else {
-		c.Set(constants.Response, res)
-		c.Set(constants.Error, nil)
-	}
+	//service := GetContactServiceFromRegistry()
+	//res, err := service.repo.FetchContactsByRestaurantId(c.Param("id"))
+	//if err != nil {
+	//	c.Set(constants.Response, nil)
+	//	c.Set(constants.Error, err)
+	//} else {
+	//	c.Set(constants.Response, res)
+	//	c.Set(constants.Error, nil)
+	//}
 }
 
 func GetContactServiceFromRegistry() *Service {

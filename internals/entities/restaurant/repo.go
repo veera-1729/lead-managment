@@ -5,29 +5,30 @@ import (
 )
 
 type Repo struct {
-	DB *database.Db
+	database.DataBase
 }
 
-func NewRestaurantStore(db *database.Db) *Repo {
+func NewRestaurantStore(db database.DataBase) *Repo {
 	return &Repo{
-		DB: db,
+		db,
 	}
 }
 
 // CreateRestaurant creates a new restaurant
-func (r *Repo) CreateRestaurant(restaurant *Restaurant) error {
-	res := r.DB.Db.Create(restaurant)
-	if res.Error != nil {
-		return res.Error
+func (r *Repo) CreateRestaurant(restaurant database.IModel) error {
+	err := r.Create(restaurant)
+	if err != nil {
+		return err
 	}
 	return nil
 }
 
 func (r *Repo) FetchAllRestaurants() ([]Restaurant, error) {
-	var restaurants []Restaurant
-	res := r.DB.Db.Find(&restaurants)
-	if res.Error != nil {
-		return nil, res.Error
-	}
-	return restaurants, nil
+	//var restaurants []Restaurant
+	//res := r.DB.Db.Find(&restaurants)
+	//if res.Error != nil {
+	//	return nil, res.Error
+	//}
+	//return restaurants, nil
+	return nil, nil
 }

@@ -54,4 +54,5 @@ func main() {
 	} else {
 		fmt.Println("Server started successfully")
 	}
+
 }

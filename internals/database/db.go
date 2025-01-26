@@ -30,3 +30,27 @@ func (d *Db) Connect() error {
 	d.Db = db
 	return nil
 }
+
+func (d *Db) Create(mode IModel) error {
+	res := d.Db.Create(mode)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
+func (d *Db) Find(id string, receiver IModel) error {
+	res := d.Db.Where("id = ?", id).First(&receiver)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
+func (d *Db) Update(model IModel) error {
+	return nil
+}
+
+func (d *Db) Delete(id string) error {
+	return nil
+}

@@ -32,6 +32,7 @@ func setUpContactRoutes(router *gin.Engine) {
 	userRoutes := router.Group("/contacts")
 
 	userRoutes.GET("", contacts.FetchAllContacts)
+	userRoutes.GET("/:id", contacts.FetchContactByID)
 	userRoutes.GET("/restaurants/:id", contacts.FetchRestaurantContacts)
 	userRoutes.POST("", contacts.CreateContact)
 	userRoutes.PUT("/edit/:id", contacts.EditContact)
